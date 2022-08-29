@@ -1,0 +1,287 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+html {
+  font-size: 20px;
+}
+
+body {
+  color: white;
+  background-color: black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  opacity: 0.9;
+}
+
+.fixed {
+  position: fixed;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.center {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 2rem;
+}
+.center #time {
+  font-size: 6rem;
+}
+.center #meridiem {
+  font-size: 3rem;
+}
+
+.upper-left {
+  top: 1.25rem;
+  left: 1.25rem;
+}
+
+.upper-right {
+  top: 1.25rem;
+  right: 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  width: 7rem;
+}
+
+.lower-left {
+  bottom: 1.25rem;
+  left: 1.25rem;
+}
+
+.lower-right {
+  bottom: 1.25rem;
+  right: 1.25rem;
+}
+
+.lower-center {
+  bottom: 1.25rem;
+  left: 50vw;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: -1;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none;
+}
+
+.dim {
+  opacity: 0.5;
+}
+
+.button {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: rgba(255, 255, 255, 0.75);
+  background-color: rgba(51, 51, 51, 0.5);
+  font-family: "Roboto", sans-serif;
+}
+
+.li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.p {
+  display: inline-block;
+}
+
+.line-through {
+  -webkit-text-decoration-line: line-through;
+          text-decoration-line: line-through;
+  -webkit-text-decoration-color: rgb(252, 90, 3);
+          text-decoration-color: rgb(252, 90, 3);
+  text-decoration-thickness: 15%;
+}
+
+.capitalize::first-letter {
+  text-transform: capitalize;
+}
+
+.roboto {
+  font-family: "Roboto", sans-serif;
+}
+
+.roboto-cond {
+  font-family: "Roboto Condensed", sans-serif;
+}
+
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+}
+
+.oswald {
+  font-family: "Oswald", sans-serif;
+}
+
+.ubuntu {
+  font-family: "Ubuntu", sans-serif;
+}
+
+input[type=text] {
+  background-color: transparent;
+  width: 20rem;
+  padding: 0.25rem;
+  border: none;
+  outline: none;
+  border-bottom: 0.1rem solid white;
+  font-size: 1.2rem;
+  font-family: inherit;
+  color: white;
+}
+
+input[type=file] {
+  position: absoulte;
+  opacity: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+#quote-div {
+  margin-bottom: 0.75rem;
+}
+
+#todo-input {
+  background-color: rgba(51, 51, 51, 0.5);
+  font-size: 0.9rem;
+  padding: 0.5rem;
+  border: none;
+  width: 15rem;
+}
+
+#todo-list-div {
+  background-color: rgba(0, 0, 0, 0.75);
+  font-size: 0.9rem;
+  padding: 0.35rem;
+  margin-bottom: 0.5rem;
+  z-index: 1;
+}
+#todo-list-div li {
+  padding: 0.5rem;
+  max-width: 15rem;
+}
+
+#todo-btn {
+  text-align: right;
+}
+
+@media screen and (hover: hover) {
+  .clickable:hover {
+    color: rgb(83, 146, 223);
+  }
+  .button:hover {
+    cursor: pointer;
+  }
+  #todo-list-div li:hover {
+    background-color: rgba(179, 179, 179, 0.75);
+  }
+}
+@media screen and (hover: none) {
+  .clickable {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+@media screen and (max-width: 480px) {
+  .center {
+    font-size: 1.5rem;
+    width: 25rem;
+    top: 40%;
+  }
+  .center #time {
+    font-size: 5rem;
+  }
+  .center #meridiem {
+    font-size: 2.5rem;
+  }
+  .lower-center {
+    width: 25rem;
+    bottom: 15vh;
+  }
+  input[type=text] {
+    width: 13rem;
+  }
+}
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 360px) {
+  .center {
+    font-size: 1.25rem;
+    width: 22rem;
+  }
+  .center #time {
+    font-size: 4rem;
+  }
+  .center #meridiem {
+    font-size: 2rem;
+  }
+  .lower-center {
+    width: 22rem;
+  }
+}/*# sourceMappingURL=main.css.map */

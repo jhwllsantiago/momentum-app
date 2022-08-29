@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Momentum App</title>
+    <link rel="icon" href="./assets/m.png" type="image/icon type">
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="preconnect" href="https://picsum.photos" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&family=Oswald&family=Roboto&family=Roboto+Condensed&family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
+    <script src="./scripts/index.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/ee89b5ee3e.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="background"></div>
+    <div class="container">
+      <div class="upper-left fixed">
+        <div>
+          <label class="clickable" for="file">Background +</label>
+          <input id="file" type="file" />
+        </div>
+      </div>
+
+      <div class="upper-right fixed">
+        <div title="Cycle fonts">
+          <i class="fa-solid fa-font clickable"></i>
+        </div>
+        <div title="Time format">
+          <i class="fa-solid fa-clock clickable"></i>
+        </div>
+        <div title="Brightness">
+          <i class="fa-solid fa-lightbulb clickable"></i>
+        </div>
+        <div title="Change user">
+          <i class="fa-solid fa-id-card clickable"></i>
+        </div>
+        <div title="Delete stored info">
+          <i class="fa-solid fa-trash clickable"></i>
+        </div>
+      </div>
+
+      <div class="center">
+        <p><span id="time"></span><span id="meridiem"></span></p>
+        <div id="name-input-div">
+          <p>What's your name?</p>
+          <input id="name-input" type="text" autocomplete="off" />
+        </div>
+
+        <div id="focus-input-div" class="hidden">
+          <p>What's your priority today?</p>
+          <input id="focus-input" type="text" autocomplete="off" />
+        </div>
+
+        <div id="display-inputs" class="hidden">
+          <p id="display-name"></p>
+          <p>Focus on <span id="display-focus"></span></p>
+        </div>
+      </div>
+
+      <div class="lower-right fixed">
+        <div id="todo-list-div" class="hidden">
+          <div>
+            <ul id="todo-list"></ul>
+          </div>
+          <input
+            id="todo-input"
+            type="text"
+            autocomplete="off"
+            placeholder="new task"
+          />
+        </div>
+        <div id="todo-btn">
+          <p class="clickable"><i class="fa-solid fa-list-check"> </i> Todo</p>
+        </div>
+      </div>
+
+      <div class="lower-center fixed">
+        <div id="quote-display"><p class="capitalize"></p></div>
+      </div>
+
+      <div class="lower-left fixed">
+        <div id="quote-div" class="hidden">
+          "<input id="quote-input" type="text" autocomplete="off" />"
+        </div>
+
+        <p>
+          <i class="fa-solid fa-shuffle clickable" id="shuffle"></i>
+          <span>&nbsp;</span>
+          <span id="quote-btn" class="clickable">Add quote +</span>
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+$position: 1.25rem;
+
+.fixed {
+  position: fixed;
+}
+
+.container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.center {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  font-size: 2rem;
+
+  #time {
+    font-size: 6rem;
+  }
+  #meridiem {
+    font-size: 3rem;
+  }
+}
+
+.upper-left {
+  top: $position;
+  left: $position;
+}
+
+.upper-right {
+  top: $position;
+  right: $position;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  width: 7rem;
+}
+
+.lower-left {
+  bottom: $position;
+  left: $position;
+}
+
+.lower-right {
+  bottom: $position;
+  right: $position;
+}
+
+.lower-center {
+  bottom: $position;
+  left: 50vw;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: -1;
+}

@@ -1,0 +1,71 @@
+@media screen and (hover: hover) {
+  .clickable:hover {
+    color: rgb(83, 146, 223);
+  }
+  .button:hover {
+    cursor: pointer;
+  }
+  #todo-list-div li:hover {
+    background-color: rgb(179, 179, 179, 0.75);
+  }
+}
+
+@media screen and (hover: none) {
+  .clickable {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .center {
+    font-size: 1.5rem;
+    width: 25rem;
+    top: 40%;
+
+    #time {
+      font-size: 5rem;
+    }
+    #meridiem {
+      font-size: 2.5rem;
+    }
+  }
+
+  .lower-center {
+    width: 25rem;
+    bottom: 15vh;
+  }
+
+  input[type="text"] {
+    width: 13rem;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .center {
+    font-size: 1.25rem;
+    width: 22rem;
+
+    #time {
+      font-size: 4rem;
+    }
+    #meridiem {
+      font-size: 2rem;
+    }
+  }
+
+  .lower-center {
+    width: 22rem;
+  }
+}
