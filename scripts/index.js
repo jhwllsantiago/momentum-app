@@ -258,23 +258,27 @@ nameInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
 
-    nameInputDiv.classList.add("hidden");
-    username = nameInput.value;
-    localStorage.setItem("username", username);
-    checkGreeting();
-    displayName.textContent = `${greeting} ${username}!`;
-    focusInputDiv.classList.remove("hidden");
+    username = nameInput.value.trim();
+    if (username) {
+      nameInputDiv.classList.add("hidden");
+      localStorage.setItem("username", username);
+      checkGreeting();
+      displayName.textContent = `${greeting} ${username}!`;
+      focusInputDiv.classList.remove("hidden");
+    }
   }
 });
 focusInput.addEventListener("keypress", (event) => {
   if (event.key === "Enter") {
     event.preventDefault();
 
-    focusInputDiv.classList.add("hidden");
-    userfocus = focusInput.value;
-    localStorage.setItem("userfocus", userfocus);
-    displayFocus.textContent = `'${userfocus}'`;
-    displayInputs.classList.remove("hidden");
+    userfocus = focusInput.value.trim();
+    if (userfocus) {
+      focusInputDiv.classList.add("hidden");
+      localStorage.setItem("userfocus", userfocus);
+      displayFocus.textContent = `'${userfocus}'`;
+      displayInputs.classList.remove("hidden");
+    }
   }
 });
 //#endregion
