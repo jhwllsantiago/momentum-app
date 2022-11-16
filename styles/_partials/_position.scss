@@ -24,6 +24,10 @@ $position: 1.25rem;
   #meridiem {
     font-size: 3rem;
   }
+  #display-name {
+    margin-bottom: 0.5rem;
+    max-width: 90vw;
+  }
 }
 
 .upper-left {
@@ -58,4 +62,9 @@ $position: 1.25rem;
   transform: translateX(-50%);
   text-align: center;
   z-index: -1;
+
+  #quote-display {
+    max-width: 50rem;
+    word-wrap: break-word;
+  }
 }

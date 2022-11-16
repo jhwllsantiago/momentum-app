@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Momentum App</title>
-    <link rel="icon" href="./assets/m.png" type="image/icon type">
+    <link rel="icon" href="./assets/m.png" type="image/icon type" />
     <link rel="stylesheet" href="./styles/main.css" />
     <link rel="preconnect" href="https://picsum.photos" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -26,26 +26,16 @@
       <div class="upper-left fixed">
         <div>
           <label class="clickable" for="file">Background +</label>
-          <input id="file" type="file" />
+          <input type="file" id="file" accept="image/png, image/jpeg" />
         </div>
       </div>
 
       <div class="upper-right fixed">
-        <div title="Cycle fonts">
-          <i class="fa-solid fa-font clickable"></i>
-        </div>
-        <div title="Time format">
-          <i class="fa-solid fa-clock clickable"></i>
-        </div>
-        <div title="Brightness">
-          <i class="fa-solid fa-lightbulb clickable"></i>
-        </div>
-        <div title="Change user">
-          <i class="fa-solid fa-id-card clickable"></i>
-        </div>
-        <div title="Delete stored info">
-          <i class="fa-solid fa-trash clickable"></i>
-        </div>
+        <i title="Fonts" class="fa-solid fa-font clickable"></i>
+        <i title="Time" class="fa-solid fa-clock clickable"></i>
+        <i title="Brightness" class="fa-solid fa-lightbulb clickable"></i>
+        <i title="User" class="fa-solid fa-id-card clickable"></i>
+        <i title="Delete" class="fa-solid fa-trash clickable"></i>
       </div>
 
       <div class="center">
@@ -61,7 +51,7 @@
         </div>
 
         <div id="display-inputs" class="hidden">
-          <p id="display-name"></p>
+          <p id="display-name" class="overflow"></p>
           <p>Focus on <span id="display-focus"></span></p>
         </div>
       </div>

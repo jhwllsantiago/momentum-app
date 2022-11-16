@@ -1,3 +1,4 @@
+//#region global variables
 const background = document.querySelector(".background");
 const body = document.querySelector("body");
 const file = document.querySelector("#file");
@@ -5,8 +6,6 @@ const reader = new FileReader();
 
 const time = document.querySelector("#time");
 const meridiem = document.querySelector("#meridiem");
-let timeHour;
-let timeMinute;
 
 const quote = document.querySelector("#quote-display p");
 const quoteBtn = document.querySelector("#quote-btn");
@@ -16,10 +15,8 @@ let quoteArray = [
   "Never gonna give you up",
   "Whatever you do, do it well",
   "Impossible is for the unwilling",
-  "Never gonna let you down",
   "It always seems impossible until it's done",
   "There is no substitute for hard work",
-  "Never gonna run around and desert you",
 ];
 let quoteInterval;
 let quoteShuffleFlag;
@@ -36,9 +33,16 @@ const clock = document.querySelector(".fa-clock");
 const lightbulb = document.querySelector(".fa-lightbulb");
 const idCard = document.querySelector(".fa-id-card");
 const trash = document.querySelector(".fa-trash");
-let whichFont;
-let timeFlag;
-let isDim = "no";
+const fontSelect = [
+  "Roboto",
+  "Roboto Condensed",
+  "Montserrat",
+  "Oswald",
+  "Ubuntu",
+];
+let fontIndex = 0;
+let timeFlag = 1;
+let dimFlag = 0;
 
 const nameInput = document.querySelector("#name-input");
 const focusInput = document.querySelector("#focus-input");
@@ -47,38 +51,61 @@ const focusInputDiv = document.querySelector("#focus-input-div");
 const displayInputs = document.querySelector("#display-inputs");
 const displayName = document.querySelector("#display-name");
 const displayFocus = document.querySelector("#display-focus");
-let greeting;
+//let greeting;
 let username;
 let userfocus;
-
+//#endregion
 //#region functions
-function checkLocalStorage() {
-  let storedImage = localStorage.getItem("image");
-  let storedUsername = localStorage.getItem("username");
-  let storedUserfocus = localStorage.getItem("userfocus");
-  let storedquoteArray = JSON.parse(localStorage.getItem("quoteArray"));
-  let storedToDoArray = JSON.parse(localStorage.getItem("toDoArray"));
-  let storedFont = localStorage.getItem("font");
-  let storedTimeFlag = localStorage.getItem("timeFlag");
-  let storedIsDim = localStorage.getItem("isDim");
-
-  //image
-  if (storedImage != null) {
+function getImage() {
+  const storedImage = localStorage.getItem("image");
+  if (storedImage !== null) {
     background.style.backgroundImage = `url(${storedImage})`;
   } else if (window.innerWidth > window.innerHeight) {
     background.style.backgroundImage = "url('https://picsum.photos/1920/1080')";
   } else {
     background.style.backgroundImage = "url('https://picsum.photos/1080/1920')";
   }
+}
+function getTime() {
+  const storedFlag = localStorage.getItem("timeFlag");
+  if (storedFlag !== null) timeFlag = parseInt(storedFlag);
 
-  //user info
+  const date = new Date();
+  const timeConverted = date.toLocaleString([], {
+    hour12: timeFlag,
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+  if (timeFlag) {
+    let timeSplit = timeConverted.split(" ");
+    time.textContent = timeSplit[0];
+    meridiem.textContent = timeSplit[1];
+  } else {
+    time.textContent = timeConverted;
+    meridiem.textContent = "";
+  }
+}
+function greeting() {
+  const hour = new Date().getHours();
+  let message;
+  if (hour >= 0 && hour <= 11) {
+    message = "Good morning,";
+  } else if (hour >= 12 && hour <= 17) {
+    message = "Good afternoon,";
+  } else {
+    message = "Good evening,";
+  }
+  return message;
+}
+function getUser() {
+  const storedUsername = localStorage.getItem("username");
+  const storedUserfocus = localStorage.getItem("userfocus");
   if (storedUsername === null) {
     nameInputDiv.classList.remove("hidden");
   } else {
     nameInputDiv.classList.add("hidden");
-    checkGreeting();
     username = storedUsername;
-    displayName.textContent = `${greeting} ${username}!`;
+    displayName.textContent = `${greeting()} ${username}!`;
 
     if (storedUserfocus === null) {
       displayInputs.classList.add("hidden");
@@ -88,85 +115,35 @@ function checkLocalStorage() {
       displayFocus.textContent = `'${userfocus}'`;
     }
   }
-  if (storedUsername != null && storedUserfocus != null) {
+  if (storedUsername !== null && storedUserfocus !== null) {
     displayInputs.classList.remove("hidden");
   }
-
-  //quotes
-  if (storedquoteArray != null) {
+}
+function getQuote() {
+  const storedquoteArray = JSON.parse(localStorage.getItem("quoteArray"));
+  if (storedquoteArray !== null) {
     quoteArray = [];
     quoteArray.push(...storedquoteArray);
     quote.textContent = '"' + quoteArray[quoteArray.length - 1] + '"';
-  } else {
-    randomQuote();
-  }
-
-  //todo
-  if (storedToDoArray != null) {
+  } else randomQuote();
+}
+function getToDo() {
+  let storedToDoArray = JSON.parse(localStorage.getItem("toDoArray"));
+  if (storedToDoArray !== null) {
     toDoArray.push(...storedToDoArray);
-    for (const todo of toDoArray) createNewEntry(todo);
-  }
-
-  //font
-  if (storedFont === null) {
-    whichFont = 1;
-    localStorage.setItem("font", whichFont);
-  } else {
-    whichFont = parseInt(storedFont);
-  }
-
-  //time
-  if (storedTimeFlag === null) {
-    timeFlag = 1;
-    localStorage.setItem("timeFlag", 1);
-  } else {
-    timeFlag = parseInt(storedTimeFlag);
-  }
-
-  //dim
-  if (storedIsDim != null) {
-    isDim = storedIsDim;
-    if (isDim === "yes") {
-      background.classList.add("dim");
-    }
+    for (const todo of toDoArray) createToDo(todo);
   }
 }
-
-function displayTime() {
-  timeHour = new Date().getHours();
-  timeMinute = new Date().getMinutes();
-
-  if (timeHour < 10 && timeHour > 0) {
-    timeHour = "0" + timeHour;
-  }
-  if (timeMinute < 10) {
-    timeMinute = "0" + timeMinute;
-  }
-
-  if (!timeFlag) {
-    if (timeHour === 0) {
-      timeHour = "0" + timeHour;
-    }
-    time.textContent = timeHour + ":" + timeMinute;
-    meridiem.textContent = "";
-  } else if (timeFlag && timeHour > 21) {
-    timeHour -= 12;
-    time.textContent = timeHour + ":" + timeMinute;
-    meridiem.textContent = "PM";
-  } else if (timeFlag && timeHour <= 21 && timeHour > 12) {
-    timeHour -= 12;
-    time.textContent = "0" + timeHour + ":" + timeMinute;
-    meridiem.textContent = "PM";
-  } else if (timeFlag && timeHour === 12) {
-    time.textContent = timeHour + ":" + timeMinute;
-    meridiem.textContent = "PM";
-  } else if (timeFlag && timeHour < 12 && timeHour > 0) {
-    time.textContent = timeHour + ":" + timeMinute;
-    meridiem.textContent = "AM";
-  } else if (timeFlag && timeHour === 0) {
-    timeHour += 12;
-    time.textContent = timeHour + ":" + timeMinute;
-    meridiem.textContent = "AM";
+function getFont() {
+  let storedIndex = localStorage.getItem("fontIndex");
+  if (storedIndex) fontIndex = parseInt(storedIndex);
+  body.style.fontFamily = fontSelect[fontIndex];
+}
+function getBrightness() {
+  let storedFlag = parseInt(localStorage.getItem("dimFlag"));
+  if (storedFlag) {
+    background.classList.add("dim");
+    dimFlag = storedFlag;
   }
 }
 
@@ -175,7 +152,7 @@ function randomQuote() {
   quote.textContent = '"' + quoteArray[x] + '"';
 }
 
-function createNewEntry(string) {
+function createToDo(string) {
   let newLi = document.createElement("li");
   newLi.classList.add("li");
 
@@ -183,18 +160,19 @@ function createNewEntry(string) {
   newP.textContent = string;
   newP.classList.add("p");
 
-  let newBtn = document.createElement("button");
-  newBtn.textContent = "X";
-  newBtn.classList.add("button");
+  let deleteBtn = document.createElement("button");
+  deleteBtn.classList.add("button");
+  deleteBtn.classList.add("fa-solid");
+  deleteBtn.classList.add("fa-delete-left");
 
   newLi.append(newP);
-  newLi.append(newBtn);
+  newLi.append(deleteBtn);
   todoList.append(newLi);
 
   newLi.addEventListener("click", () => {
     newP.classList.toggle("line-through");
   });
-  newBtn.addEventListener("click", () => {
+  deleteBtn.addEventListener("click", () => {
     todoList.removeChild(newLi);
 
     let leftovers = document.querySelectorAll(".p");
@@ -205,52 +183,7 @@ function createNewEntry(string) {
     localStorage.setItem("toDoArray", JSON.stringify(toDoArray));
   });
 }
-
-function checkGreeting() {
-  timeHour = new Date().getHours();
-
-  if (timeHour > 4 && timeHour < 12) {
-    greeting = "Good morning,";
-  } else if (timeHour >= 12 && timeHour < 18) {
-    greeting = "Good afternoon,";
-  } else if (timeHour >= 18 && timeHour <= 23) {
-    greeting = "Good evening,";
-  } else {
-    greeting = "Time to sleep,";
-  }
-}
-
-function loadFont() {
-  body.removeAttribute("class");
-  if (whichFont === 1) {
-    body.classList.add("roboto");
-    localStorage.setItem("font", whichFont);
-    whichFont++;
-  } else if (whichFont === 2) {
-    body.classList.add("roboto-cond");
-    localStorage.setItem("font", whichFont);
-    whichFont++;
-  } else if (whichFont === 3) {
-    body.classList.add("montserrat");
-    localStorage.setItem("font", whichFont);
-    whichFont++;
-  } else if (whichFont === 4) {
-    body.classList.add("oswald");
-    localStorage.setItem("font", whichFont);
-    whichFont++;
-  } else if (whichFont === 5) {
-    body.classList.add("ubuntu");
-    localStorage.setItem("font", whichFont);
-    whichFont = 1;
-  }
-}
 //#endregion
-
-checkLocalStorage();
-loadFont();
-displayTime();
-setInterval(displayTime, 1000);
-setInterval(checkGreeting, 1000);
 
 //event listeners
 //#region main
@@ -262,8 +195,7 @@ nameInput.addEventListener("keypress", (event) => {
     if (username) {
       nameInputDiv.classList.add("hidden");
       localStorage.setItem("username", username);
-      checkGreeting();
-      displayName.textContent = `${greeting} ${username}!`;
+      displayName.textContent = `${greeting()} ${username}!`;
       focusInputDiv.classList.remove("hidden");
     }
   }
@@ -294,27 +226,25 @@ reader.addEventListener("load", () => {
 //#endregion
 //#region icon bar
 font.addEventListener("click", () => {
-  loadFont();
+  if (fontIndex >= fontSelect.length - 1) fontIndex = 0;
+  else fontIndex++;
+  body.style.fontFamily = fontSelect[fontIndex];
+  localStorage.setItem("fontIndex", fontIndex);
 });
 clock.addEventListener("click", () => {
-  if (timeFlag) {
-    timeFlag = 0;
-    localStorage.setItem("timeFlag", 0);
-  } else {
-    timeFlag = 1;
-    localStorage.setItem("timeFlag", 1);
-  }
-  displayTime();
+  if (timeFlag) localStorage.setItem("timeFlag", 0);
+  else localStorage.setItem("timeFlag", 1);
+  getTime();
 });
 lightbulb.addEventListener("click", () => {
-  if (isDim === "no") {
+  if (!dimFlag) {
     background.classList.add("dim");
-    isDim = "yes";
-    localStorage.setItem("isDim", "yes");
-  } else if (isDim === "yes") {
+    dimFlag = 1;
+    localStorage.setItem("dimFlag", 1);
+  } else {
     background.classList.remove("dim");
-    isDim = "no";
-    localStorage.setItem("isDim", "no");
+    dimFlag = 0;
+    localStorage.setItem("dimFlag", 0);
   }
 });
 idCard.addEventListener("click", () => {
@@ -356,7 +286,7 @@ quoteInput.addEventListener("keypress", (event) => {
 
     quoteDiv.classList.toggle("hidden");
     let newQuote = quoteInput.value.trim();
-    if (newQuote != null && newQuote != "" && newQuote != " ") {
+    if (newQuote !== null && newQuote !== "" && newQuote !== " ") {
       quoteArray.push(newQuote);
       quote.textContent = '"' + newQuote + '"';
       quoteShuffleFlag = 0;
@@ -380,7 +310,7 @@ todoInput.addEventListener("keypress", (event) => {
 
     let newToDo = todoInput.value.trim();
     if (newToDo) {
-      createNewEntry(newToDo);
+      createToDo(newToDo);
       let buffer = [];
       buffer.push(newToDo);
       toDoArray.push(...buffer);
@@ -390,3 +320,12 @@ todoInput.addEventListener("keypress", (event) => {
   }
 });
 //#endregion
+
+getImage();
+getTime();
+getUser();
+getQuote();
+getToDo();
+getFont();
+getBrightness();
+setInterval(getTime, 1000);
